@@ -1,18 +1,14 @@
-<script setup>
-import { User, Lock, Right } from '@element-plus/icons-vue';
-</script>
-
 <template>
-	<el-image style="width: 60%; margin-top: 20%;margin-bottom: 8%; margin-left: 20%; margin-right: 20%;" src="../public/logo.png"/>
+	<el-image style="width: 60%; margin-top: 20%;margin-bottom: 8%; margin-left: 20%; margin-right: 20%;" src="/src/components/icons/logo.png"/>
 	<div style="font-size: 30px; font-family: Microsoft YaHei">登录</div>
 	<el-divider style="width: 60%; margin: 5% 20%;"/>
 	<div>
-			<el-input style="width: 60%" placeholder="用户名/邮箱">
+			<el-input v-model="info.username" style="width: 60%" placeholder="用户名/邮箱">
 					<template #prefix>
 							<el-icon><User /></el-icon>
 					</template>
 			</el-input>
-			<el-input style="width: 60%; margin-top: 10px" placeholder="密码">
+			<el-input v-model="info.password" type="password" style="width: 60%; margin-top: 10px" placeholder="密码">
 					<template #prefix>
 							<el-icon><Lock /></el-icon>
 					</template>
@@ -31,7 +27,7 @@ import { User, Lock, Right } from '@element-plus/icons-vue';
 			</el-col>
 	</el-row>
 	<div>
-			<el-button style="width: 40%; margin-top: 15px" type="success">立即登录</el-button>
+			<el-button @click="Login" style="width: 40%; margin-top: 15px" type="success">立即登录</el-button>
 	</div>
 	<el-divider style="width: 60%; margin: 3% 20%;"/>
 	<div>
@@ -41,6 +37,30 @@ import { User, Lock, Right } from '@element-plus/icons-vue';
 			</el-button>
 	</div> 
 </template>
+
+<script setup>
+import { User, Lock, Right } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
+import { reactive } from 'vue';
+import router from '@/router';
+
+const info = reactive({
+	username: '',
+	password: ''
+});
+
+const Login = () => {
+	if (info.username == '' || info.password == '') {
+		ElMessage.warning('用户名或密码不能为空！');
+	} else if (info.username == 'admin' && info.password == '123456') {
+		ElMessage.success('登录成功！');
+		router.push('/home');
+	} else {
+		ElMessage.error('用户名或密码错误！');
+	}
+}
+
+</script>
 
 <style scoped>
 
