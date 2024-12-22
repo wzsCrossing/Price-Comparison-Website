@@ -8,7 +8,7 @@
 							<el-icon><User /></el-icon>
 					</template>
 			</el-input>
-			<el-input v-model="info.password" type="password" style="width: 60%; margin-top: 10px" placeholder="密码">
+			<el-input v-model="info.password" type="password" style="width: 60%; margin-top: 10px" placeholder="密码" show-password>
 					<template #prefix>
 							<el-icon><Lock /></el-icon>
 					</template>
@@ -30,11 +30,12 @@
 			<el-button @click="Login" style="width: 40%; margin-top: 15px" type="success">立即登录</el-button>
 	</div>
 	<el-divider style="width: 60%; margin: 3% 20%;"/>
-	<div>
-			<el-button style="width: 40%;" type="warning">
-					没有账号？立即注册
-					<el-icon style="margin-left: 5px;"><Right /></el-icon>
-			</el-button>
+	<div style="font-size: 15px; font-family: Fangsong; font-weight: bolder; color: grey; margin-top: 20px">
+			没有账号？
+			<el-link @click="Register" type="primary" style="translate: 0 -2px; font-weight: bolder; font-size: 15px;"> 
+				立即注册
+				<el-icon><Right /></el-icon> 
+			</el-link>
 	</div> 
 </template>
 
@@ -58,6 +59,10 @@ const Login = () => {
 	} else {
 		ElMessage.error('用户名或密码错误！');
 	}
+}
+
+const Register = () => {
+	router.push('/register');
 }
 
 </script>
