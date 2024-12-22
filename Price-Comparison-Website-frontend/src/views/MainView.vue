@@ -38,7 +38,7 @@
 						<el-tooltip content="通知" placement="bottom" effect="dark">
 							<el-icon @click = "" style="margin-top: 26px; margin-right: 25px;"><Bell /></el-icon>
 						</el-tooltip>	
-						<p style="font-weight: bolder; font-family:'Courier New', Courier, monospace; margin-right: 40px; margin-top: 25px;">Hi, admin!</p>
+						<p style="color: dimgray; font-weight: bolder; font-family:'Courier New', Courier, monospace; margin-right: 30px; margin-top: 25px;">Hi, admin!</p>
 						<el-button @click = "Logout" type="danger" style="margin-top: 17px; font-size: 13px;">
 							退出登录
 							<el-icon style="margin-left: 5px;"><SwitchButton /></el-icon>
@@ -55,7 +55,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { Goods, UserFilled, HomeFilled, Setting, Fold, SwitchButton, Bell } from '@element-plus/icons-vue'
 import router from '@/router';
 import { ElMessage } from 'element-plus';
@@ -86,7 +85,7 @@ const Logout = () => {
 <style scoped>
 .layout-container-demo .el-header {
   position: relative;
-  background-color: aliceblue;
+  background-color: white;
   color: var(--el-text-color-primary);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 	height: 8%;
@@ -119,6 +118,8 @@ const Logout = () => {
 
 .layout-container-demo .el-main {
   padding: 0;
+	background-color: #f5f7fa;
+	
 }
 
 </style>
