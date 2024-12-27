@@ -45,6 +45,7 @@
 
 <script setup>
 import { Search } from '@element-plus/icons-vue'
+import axios from 'axios';
 import { ref } from 'vue';
 
 let toQuery = ref('');
@@ -85,6 +86,14 @@ const Follow = (item) => {
 const Unfollow = (item) => {
 	item.followed = false;
 }
+
+axios.get('http://localhost:3000/')
+	.then(response => {
+		console.log(response.data);
+	})
+	.catch(error => {
+		console.log(error);
+	});
 
 </script>
 
