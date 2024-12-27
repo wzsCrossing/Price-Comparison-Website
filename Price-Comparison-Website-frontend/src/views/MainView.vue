@@ -36,7 +36,7 @@
 					</span>
 					<span class="header_right">
 						<el-tooltip content="通知" placement="bottom" effect="dark">
-							<el-icon @click = "" style="margin-top: 26px; margin-right: 25px;"><Bell /></el-icon>
+							<el-icon @click = "" style="margin-top: 26px; margin-right: 25px;"><BellFilled /></el-icon>
 						</el-tooltip>	
 						<p style="color: dimgray; font-weight: bolder; font-family:'Courier New', Courier, monospace; margin-right: 30px; margin-top: 25px;">Hi, admin!</p>
 						<el-button @click = "Logout" type="danger" style="margin-top: 17px; font-size: 13px;">
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { Goods, UserFilled, HomeFilled, Setting, Fold, SwitchButton, Bell } from '@element-plus/icons-vue'
+import { Goods, UserFilled, HomeFilled, Fold, SwitchButton, BellFilled } from '@element-plus/icons-vue'
 import router from '@/router';
 import { ElMessage } from 'element-plus';
 

@@ -6,16 +6,16 @@
 		</div>
 
 		<div style="padding-top:5vh; padding-bottom:6vh;">
-			<el-input v-model="toQuery" style="width: 30%; margin-left: 35%;" placeholder="输入商品名称">
+			<el-input v-model="toQuery" style="width: 30%; margin-left: 33%;" placeholder="输入商品名称">
 				<template #prefix>
 					<el-icon><Search /></el-icon>
 				</template>
 			</el-input>
-			<el-button style="margin-left: 20px;" type="primary" @click="QueryCommodity">查询</el-button>
+			<el-button style="margin-left: 20px;" type="primary" @click="FilterCommodity">查询</el-button>
 		</div>
 
 		<div class="container">
-			<div class="commodityBox" v-for="item in tableData" v-show="item.name.includes(toQuery)" :key="item.price">
+			<div class="commodityBox" v-for="item in FilterData">
 				<div>
 					
 					<el-image :src="item.imageUrl" style="width: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;"/>
@@ -27,12 +27,14 @@
 						</div>
 					</div>
 
-					<div style="margin-top: 5px; margin-left: 10px; text-align: start; font-size: 16px;">
+					<div style="margin-top: 5px; margin-left: 10px; text-align: start; font-size: 16px; display: flex; align-items: center;">
 						<span style="color:chocolate">
 							￥
 							<span style="font-size: 150%;">{{ item.price }} </span>
 						</span>
-						<span style="margin-left: 10px; color:dimgrey; font-weight: bolder; font-family: Fangsong;">{{ item.address }} </span>
+						<span style="margin-left: 12px; margin-top: 10px; color:dimgrey; font-weight: bolder; font-family: Fangsong;">{{ item.address }} </span>
+						<el-image @click="Follow(item)" v-show="!item.followed" style="margin-top: 2%; margin-left: auto; margin-right: 10%; width: 13%;" src="/src/components/icons/star.png"/>
+						<el-image @click="Unfollow(item)" v-show="item.followed" style=" margin-top: 2%; margin-left: auto; margin-right: 10%; width: 13%;" src="/src/components/icons/starFilled.png"/>
 					</div>
 
 				</div>
@@ -53,13 +55,15 @@ const Commodities = [
 		name: '2025新年装饰品蛇年福字挂件过年客厅生肖中国结挂饰春节场景布置',
 		price: 11.80,
 		platform: '淘宝',
-		address: '广东 广州'
+		address: '广东 广州',
+		followed: false
 	}, {
 		imageUrl: 'http://img.alicdn.com/img/i2/111546368/O1CN017GMnMc1wub9sBDX6H_!!4611686018427383808-0-saturn_solar.jpg_.webp',
 		name: '故宫淘宝｜相思玉兔香薰礼盒闺蜜生日结婚新婚礼物',
 		price: 199,
 		platform: '京东',
-		address: '天津'	
+		address: '天津',
+		followed: false	
 	}
 ]
 
@@ -68,8 +72,18 @@ for (let i = 0; i < 10; i++) {
 	tableData = tableData.concat(Commodities);
 }
 
-const QueryCommodity = () => {
-	console.log(toQuery.value);
+const FilterData = ref(tableData);
+
+const FilterCommodity = () => {
+	FilterData.value = tableData.filter(item => item.name.includes(toQuery.value));
+}
+
+const Follow = (item) => {
+	item.followed = true;
+}
+
+const Unfollow = (item) => {
+	item.followed = false;
 }
 
 </script>
