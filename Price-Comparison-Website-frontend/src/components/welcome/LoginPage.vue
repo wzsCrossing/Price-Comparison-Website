@@ -3,7 +3,7 @@
 	<div style="font-size: 30px; font-family: Microsoft YaHei">登录</div>
 	<el-divider style="width: 60%; margin: 5% 20%;"/>
 	<div>
-			<el-input v-model="info.username" style="width: 60%" placeholder="用户名/邮箱">
+			<el-input v-model="info.username" style="width: 60%" placeholder="用户名">
 					<template #prefix>
 							<el-icon><User /></el-icon>
 					</template>
@@ -44,20 +44,28 @@ import { User, Lock, Right } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { reactive } from 'vue';
 import router from '@/router';
+import axios from 'axios';
 
 const info = reactive({
 	username: '',
 	password: ''
 });
 
-const Login = () => {
+async function Login() {
 	if (info.username == '' || info.password == '') {
 		ElMessage.warning('用户名或密码不能为空！');
-	} else if (info.username == 'admin' && info.password == '123456') {
-		ElMessage.success('登录成功！');
-		router.push('/home');
 	} else {
-		ElMessage.error('用户名或密码错误！');
+		const response = await axios.post('/login', {
+			username: info.username,
+			password: info.password
+		});
+		
+		if (response.data == '登录成功') {
+			ElMessage.success('登录成功！');
+			router.push('/home');
+		} else {
+			ElMessage.error(response.data);
+		}
 	}
 }
 

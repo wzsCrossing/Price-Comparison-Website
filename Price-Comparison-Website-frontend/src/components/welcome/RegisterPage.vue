@@ -54,6 +54,7 @@ import { User, Lock, Right, Message, Check } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { reactive, ref } from 'vue';
 import router from '@/router';
+import axios from 'axios';
 
 const info = reactive({
 	username: '',
@@ -70,7 +71,7 @@ const validateEmail = () => {
   emailError.value = !emailRegex.test(info.email);
 };
 
-const Register = () => {
+async function Register() {
 	validateEmail();
 	if (info.username == '' || info.password == '' || info.password_repeat == '' || info.email == '' || info.code == '') {
 		ElMessage.warning('请填写完整信息！');
@@ -81,8 +82,18 @@ const Register = () => {
 	} else if (emailError.value) {
 		ElMessage.error('邮箱格式错误！');
 	} else {
-		ElMessage.success('注册成功！');
-		router.push('/home');
+		const response = await axios.post('/register', {
+			username: info.username,
+			password: info.password,
+			email: info.email
+		});
+
+		if (response.data == '注册成功') {
+			ElMessage.success('注册成功！');
+			router.push('/');
+		} else {
+			ElMessage.error('注册失败: 用户名或邮箱已存在！');
+		}
 	}
 }
 
