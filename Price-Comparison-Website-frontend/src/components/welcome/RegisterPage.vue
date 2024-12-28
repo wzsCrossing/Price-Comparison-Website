@@ -32,7 +32,7 @@
 					</el-input>
 				</el-col>
 				<el-col :span="4" style="margin-left: 4%">
-					<el-button type="danger">获取验证码</el-button>
+					<el-button @click="SendEmail" type="danger">获取验证码</el-button>
 				</el-col>
 			</el-row>
 	</div>
@@ -82,18 +82,34 @@ async function Register() {
 	} else if (emailError.value) {
 		ElMessage.error('邮箱格式错误！');
 	} else {
-		const response = await axios.post('/register', {
+		const response = await axios.post('/register/confirm', {
 			username: info.username,
 			password: info.password,
-			email: info.email
+			email: info.email,
+			code: info.code
 		});
 
 		if (response.data == '注册成功') {
 			ElMessage.success('注册成功！');
 			router.push('/');
+		} else if (response.data == '验证码错误') {
+			ElMessage.error('注册失败: 邮箱验证码错误！');
 		} else {
 			ElMessage.error('注册失败: 用户名或邮箱已存在！');
 		}
+	}
+}
+
+async function SendEmail() {
+	validateEmail();
+	if (emailError.value) {
+		ElMessage.error('邮箱格式错误！');
+	} else {
+		await axios.post('/register/email', {
+			email: info.email
+		});
+
+		ElMessage.success('验证码已发送！');
 	}
 }
 

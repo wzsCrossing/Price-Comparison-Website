@@ -1,7 +1,7 @@
 const db = require('./db');
 const my_database = 'price_comparison_website';
 
-async function verify(username, password) {
+async function loginVerify(username, password) {
 	try {
 		await db.query('USE ??', [my_database]);
 		const [result] = await db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
@@ -14,5 +14,5 @@ async function verify(username, password) {
 }
 
 module.exports = {
-	verify,
+	loginVerify,
 };
