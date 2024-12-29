@@ -45,6 +45,7 @@ import { ElMessage } from 'element-plus';
 import { reactive } from 'vue';
 import router from '@/router';
 import axios from 'axios';
+import store from '@/stores/store';
 
 const info = reactive({
 	username: '',
@@ -62,6 +63,7 @@ async function Login() {
 		
 		if (response.data == '登录成功') {
 			ElMessage.success('登录成功！');
+			store.commit('setUser', info.username);
 			router.push('/home');
 		} else {
 			ElMessage.error(response.data);

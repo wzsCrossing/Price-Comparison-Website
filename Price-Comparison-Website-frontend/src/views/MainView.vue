@@ -38,7 +38,7 @@
 						<el-tooltip content="通知" placement="bottom" effect="dark">
 							<el-icon @click = "" style="margin-top: 26px; margin-right: 25px;"><BellFilled /></el-icon>
 						</el-tooltip>	
-						<p style="color: dimgray; font-weight: bolder; font-family:'Courier New', Courier, monospace; margin-right: 30px; margin-top: 25px;">Hi, admin!</p>
+						<p style="color: dimgray; font-weight: bolder; font-family:'Courier New', Courier, monospace; margin-right: 30px; margin-top: 25px;">Hi, {{store.state.currentUser}} !</p>
 						<el-button @click = "Logout" type="danger" style="margin-top: 17px; font-size: 13px;">
 							退出登录
 							<el-icon style="margin-left: 5px;"><SwitchButton /></el-icon>
@@ -58,6 +58,7 @@
 import { Goods, UserFilled, HomeFilled, Fold, SwitchButton, BellFilled } from '@element-plus/icons-vue'
 import router from '@/router';
 import { ElMessage } from 'element-plus';
+import store from '@/stores/store';
 
 const HomeClick = () => {
 	router.push('/home');
@@ -77,6 +78,7 @@ const CommodityClick = () => {
 
 const Logout = () => {
 	ElMessage.success('退出登录成功！');
+	store.commit('resetUser');
 	router.push('/');
 }
 

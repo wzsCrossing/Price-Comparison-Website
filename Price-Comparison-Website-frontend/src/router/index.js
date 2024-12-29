@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '@/stores/store'
+import { ElMessage } from 'element-plus'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +66,20 @@ const router = createRouter({
       ]
     }
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthorized = (store.state.currentUser !== '');
+
+  if (to.name.startsWith('welcome-') && isAuthorized) {
+    ElMessage.success('您已成功登录！');
+    next('/home');
+  } else if (!to.name.startsWith('welcome-') && !isAuthorized) {
+    ElMessage.warning('请先完成登录操作！');
+    next('/');
+  } else {
+    next();
+  }
 })
 
 export default router
