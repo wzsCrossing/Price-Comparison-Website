@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { loginVerify } = require('./login');
 const { registerConfirm, registerEmail } = require('./register');
+const { commodityCrawl } = require('./commodity');
 const app = express();
 const port = 3000;
 
@@ -42,6 +43,14 @@ app.post('/register/email', async (req, res) => {
   const { email } = req.body;
 
   await registerEmail(email);
+});
+
+app.post('/crawler', async (req, res) => {
+  console.log('Crawler Request: ', req.body);
+  const { keyword, platforms } = req.body;
+
+  const products = await commodityCrawl(keyword, platforms);
+  res.json(products);
 });
 
 app.listen(port, () => {
