@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { loginVerify } = require('./login');
 const { registerConfirm, registerEmail } = require('./register');
-const { commodityCrawl, commodityFollow, commodityUnfollow } = require('./commodity');
+const { commodityCrawl, commodityFollow, commodityUnfollow, commodityHistory } = require('./commodity');
 const app = express();
 const port = 3000;
 
@@ -65,6 +65,14 @@ app.post('/commodity/unfollow', async (req, res) => {
   const { username, cid } = req.body;
 
   await commodityUnfollow(username, cid);
+});
+
+app.post('/commodity/history', async (req, res) => {
+  console.log('History Request: ', req.body);
+  const { cid } = req.body;
+
+  const result = await commodityHistory(cid);
+  res.json(result);
 });
 
 app.listen(port, () => {

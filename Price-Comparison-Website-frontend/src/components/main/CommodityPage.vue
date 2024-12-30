@@ -44,7 +44,7 @@
 						
 						<el-button-group style="width: 100%; position: absolute; bottom: 0; left: 0;">
 							<el-tooltip content="商品历史价格曲线" placement="bottom" effect="dark">
-								<el-button type="primary" style="width:33%; border-bottom-left-radius: 10px; border-top-left-radius: 0px;" :icon="DataLine" size="large" />
+								<el-button type="primary"  @click="ShowCharts(item.cid)" style="width:33%; border-bottom-left-radius: 10px; border-top-left-radius: 0px;" :icon="DataLine" size="large" />
 							</el-tooltip>
 							<el-tooltip content="关注该商品" placement="bottom" effect="dark">
 								<el-button style="width:34.8%" @click="Follow(item)" v-show="!item.followed" type="info" :icon="Star" size="large"/>
@@ -63,6 +63,11 @@
 				</div>
 			</div>
 		</div>
+
+		<el-dialog title="商品历史价格曲线" v-model="dialogVisible" style="font-weight: bolder; margin-left: 32%; margin-top: 10%;">
+			<LineChart :chartData="chartData" style="width: 50vw; height: 60vh;" />
+		</el-dialog>
+
 	</el-scrollbar>
 </template>
 
@@ -70,14 +75,17 @@
 import { Search, Star, Link, DataLine } from '@element-plus/icons-vue'
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import store from '@/stores/store';
+import LineChart from './LineChart.vue';
 
 let toQuery = ref(store.state.toQuery);
 let QueryLoading = ref(false);
 let Commodities = ref(store.state.Commodities);
 let select_JD = ref(store.state.select_JD);
 let select_SN = ref(store.state.select_SN);
+let dialogVisible = ref(false);
+let chartData = ref([]);
 
 async function QueryCommodity() {
 	QueryLoading.value = true;
@@ -115,6 +123,16 @@ async function Unfollow(item) {
 		username: store.state.currentUser,
 		cid: item.cid
 	});
+}
+
+async function ShowCharts(cid) {
+	const response = await axios.post('/commodity/history', {
+		cid: cid
+	});
+
+	chartData.value = response.data;
+	console.log(chartData);
+	dialogVisible.value = true;
 }
 
 </script>

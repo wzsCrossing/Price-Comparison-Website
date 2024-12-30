@@ -87,8 +87,28 @@ async function commodityUnfollow(username, cid) {
     }
 }
 
+async function commodityHistory(cid) {
+    try {
+        await db.query('USE ??', [my_database]);
+
+        const [result] = await db.query(`
+            SELECT price, createAt FROM price_history
+            WHERE cid = ?
+        `, [cid]);
+
+        const chartData = result.map(item => ({
+            label: new Date(item.createAt).getTime(),
+            value: parseFloat(item.price),
+        }));
+        return chartData;
+    } catch (error) {
+        console.error('commodityHistory: ', error);
+    }
+}
+
 module.exports = {
     commodityCrawl,
     commodityFollow,
     commodityUnfollow,
+    commodityHistory,
 };
