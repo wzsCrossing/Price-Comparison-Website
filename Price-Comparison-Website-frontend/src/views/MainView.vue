@@ -3,7 +3,7 @@
     <el-aside width="18%">
 			<el-image style="width: 80%; margin-top: 20%;margin-bottom: 8%; margin-left: 10%; margin-right: 10%;" src="/src/components/icons/logo.png"/>
       <el-scrollbar>
-        <el-menu default-active="0">
+        <el-menu :default-active="selectIndex">
 					<el-menu-item @click="HomeClick" index="0">
 						<el-icon><HomeFilled /></el-icon>
 						<p style="font-weight: bolder;">首页</p>
@@ -59,20 +59,32 @@ import { Goods, UserFilled, HomeFilled, Fold, SwitchButton, BellFilled } from '@
 import router from '@/router';
 import { ElMessage } from 'element-plus';
 import store from '@/stores/store';
+import { ref } from 'vue';
+
+let selectIndex = ref(store.state.selectIndex);
 
 const HomeClick = () => {
+	selectIndex.value = '0';
+	store.commit('setSelectIndex', selectIndex);
+	console.log(selectIndex.value);
 	router.push('/home');
 }
 
 const InfoClick = () => {
+	selectIndex.value = '1-1';
+	store.commit('setSelectIndex', selectIndex);
 	router.push('/user-info');
 }
 
 const FollowClick = () => {
+	selectIndex.value = '1-2';
+	store.commit('setSelectIndex', selectIndex);
 	router.push('/user-follow');
 }
 
 const CommodityClick = () => {
+	selectIndex.value = '2';
+	store.commit('setSelectIndex', selectIndex);
 	router.push('/commodity');
 }
 

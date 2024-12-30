@@ -131,7 +131,6 @@ async function ShowCharts(cid) {
 	});
 
 	chartData.value = response.data;
-	console.log(chartData);
 	dialogVisible.value = true;
 }
 

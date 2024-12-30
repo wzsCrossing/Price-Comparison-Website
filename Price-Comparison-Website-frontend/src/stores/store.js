@@ -5,6 +5,7 @@ const store = createStore({
 	state: {
 		currentUser: '',
 		toQuery: '',
+		selectIndex: '0',
 		Commodities: [],
 		select_JD: true,
 		select_SN: true,
@@ -16,6 +17,7 @@ const store = createStore({
 			state.Commodities = [];
 			state.select_JD = true;
 			state.select_SN = true;
+			state.selectIndex = '0';
 		},
 		resetUser(state) {
 			state.currentUser = '';
@@ -23,6 +25,7 @@ const store = createStore({
 			state.Commodities = [];
 			state.select_JD = true;
 			state.select_SN = true;
+			state.selectIndex = '0';
 		},
 		setQuery(state, query) {
 			state.toQuery = query;
@@ -36,11 +39,14 @@ const store = createStore({
 		setSelectSN(state, select) {
 			state.select_SN = select;
 		},
+		setSelectIndex(state, index) {
+			state.selectIndex = index;
+		},
 	},
 	plugins: [
 		createVuexAlong({
 			name: "vuex-along",
-			local: { list: ["currentUser", "toQuery", "Commodities", "select_JD", "select_SN"] },
+			local: { list: ["currentUser", "toQuery", "Commodities", "select_JD", "select_SN", "selectIndex"] },
 		})
 	],
 });

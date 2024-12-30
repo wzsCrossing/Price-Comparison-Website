@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { loginVerify } = require('./login');
 const { registerConfirm, registerEmail } = require('./register');
 const { commodityCrawl, commodityFollow, commodityUnfollow, commodityHistory } = require('./commodity');
+const { userFollowed } = require('./user');
 const app = express();
 const port = 3000;
 
@@ -72,6 +73,14 @@ app.post('/commodity/history', async (req, res) => {
   const { cid } = req.body;
 
   const result = await commodityHistory(cid);
+  res.json(result);
+});
+
+app.post('/user/followed', async (req, res) => {
+  console.log('Followed Request: ', req.body);
+  const { username } = req.body;
+
+  const result = await userFollowed(username);
   res.json(result);
 });
 
