@@ -25,7 +25,7 @@
 					
 					<el-image :src="item.imgUrl" style="width: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;"/>
 					
-					<div style="margin-top: -2%; background-color: antiquewhite; padding-top: 1%; padding-bottom: 4%; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+					<div style="height: 140px; margin-top: -2%; background-color: antiquewhite; padding-top: 1%; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; position: relative;">
 						<div style="margin-left: 10px; margin-right: 10px; text-align: start; font-size: 16px;">
 							<div class="boxText"> 
 								<el-tag style="height: 22px; margin-top: -2px; background-color: #FF0036; color: white;"> {{ item.platform }} </el-tag> 
@@ -33,16 +33,31 @@
 							</div>
 						</div>
 
-						<div style="margin-top: 5px; margin-left: 10px; text-align: start; font-size: 16px; display: flex; align-items: center;">
+						<div style="margin-left: 10px; text-align: start; font-size: 16px; display: flex; align-items: center;">
 							<span style="color:chocolate">
 								￥
 								<span style="font-size: 175%;">{{ item.priceInt }}</span>
 								.{{ item.priceDec }}
 							</span>
 							<!-- <span style="margin-left: 12px; margin-top: 10px; color:dimgrey; font-weight: bolder; font-family: Fangsong;">{{ item.stock }} </span> -->
-							<el-button @click="Follow(item)" v-show="!item.followed" style="margin-left: auto; margin-right: 10%;" type="info" :icon="Star" size="small" circle/>
-							<el-button @click="Unfollow(item)" v-show="item.followed" style="margin-left: auto; margin-right: 10%;" type="warning" :icon="Star" size="small" circle/>
 						</div>
+						
+						<el-button-group style="width: 100%; position: absolute; bottom: 0; left: 0;">
+							<el-tooltip content="商品历史价格曲线" placement="bottom" effect="dark">
+								<el-button style="width:33%; border-bottom-left-radius: 10px; border-top-left-radius: 0px;" :icon="DataLine" size="large" />
+							</el-tooltip>
+							<el-tooltip content="关注该商品" placement="bottom" effect="dark">
+								<el-button style="width:34.8%" @click="Follow(item)" v-show="!item.followed" type="info" :icon="Star" size="large"/>
+							</el-tooltip>
+							<el-tooltip content="取消关注" placement="bottom" effect="dark">
+								<el-button style="width:34.8%" @click="Unfollow(item)" v-show="item.followed" type="warning" :icon="Star" size="large"/>
+							</el-tooltip>
+							<el-tooltip content="商品详情页链接" placement="bottom" effect="dark">
+								<el-link :href="item.Link" target="_blank" style="width:33%;">
+									<el-button style="width: 80px; border-bottom-right-radius: 10px; border-top-right-radius: 0px; border-top-left-radius: 0px; border-bottom-left-radius: 0px;" :icon="Link" size="large"/>
+								</el-link>
+							</el-tooltip>
+						</el-button-group>
 					</div>
 
 				</div>
@@ -52,15 +67,17 @@
 </template>
 
 <script setup>
-import { Search, Star } from '@element-plus/icons-vue'
+import { Search, Star, Link, DataLine } from '@element-plus/icons-vue'
 import axios from 'axios';
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
+import store from '@/stores/store';
 
-let toQuery = ref('');
+let toQuery = ref(store.state.toQuery);
 let QueryLoading = ref(false);
-let Commodities = ref([]);
-let select_JD = ref(true);
-let select_SN = ref(true);
+let Commodities = ref(store.state.Commodities);
+let select_JD = ref(store.state.select_JD);
+let select_SN = ref(store.state.select_SN);
 
 async function QueryCommodity() {
 	QueryLoading.value = true;
@@ -73,14 +90,19 @@ async function QueryCommodity() {
 	});
 	Commodities.value = response.data;
 	QueryLoading.value = false;
-	console.log(Commodities.value);
+	store.commit('setQuery', toQuery);
+	store.commit('setCommodities', Commodities);
+	store.commit('setSelectJD', select_JD);
+	store.commit('setSelectSN', select_SN);
 }
 
 const Follow = (item) => {
+	ElMessage.success('关注成功');
 	item.followed = true;
 }
 
 const Unfollow = (item) => {
+	ElMessage.success('取消关注成功');
 	item.followed = false;
 }
 
@@ -96,7 +118,7 @@ const Unfollow = (item) => {
 }
 
 .commodityBox {
-	height: 350px;
+	height: 380px;
 	width: 240px;
 	background-color: white;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

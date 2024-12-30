@@ -4,19 +4,43 @@ import createVuexAlong from "vuex-along";
 const store = createStore({
 	state: {
 		currentUser: '',
+		toQuery: '',
+		Commodities: [],
+		select_JD: true,
+		select_SN: true,
 	},
 	mutations: {
 		setUser(state, user) {
 			state.currentUser = user;
+			state.toQuery = '';
+			state.Commodities = [];
+			state.select_JD = true;
+			state.select_SN = true;
 		},
 		resetUser(state) {
 			state.currentUser = '';
+			state.toQuery = '';
+			state.Commodities = [];
+			state.select_JD = true;
+			state.select_SN = true;
+		},
+		setQuery(state, query) {
+			state.toQuery = query;
+		},
+		setCommodities(state, commodities) {
+			state.Commodities = commodities;
+		},
+		setSelectJD(state, select) {
+			state.select_JD = select;
+		},
+		setSelectSN(state, select) {
+			state.select_SN = select;
 		},
 	},
 	plugins: [
 		createVuexAlong({
 			name: "vuex-along",
-			local: { list: ["currentUser"] },
+			local: { list: ["currentUser", "toQuery", "Commodities", "select_JD", "select_SN"] },
 		})
 	],
 });
