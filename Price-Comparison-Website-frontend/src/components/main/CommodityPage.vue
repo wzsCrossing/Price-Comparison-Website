@@ -44,7 +44,7 @@
 						
 						<el-button-group style="width: 100%; position: absolute; bottom: 0; left: 0;">
 							<el-tooltip content="商品历史价格曲线" placement="bottom" effect="dark">
-								<el-button style="width:33%; border-bottom-left-radius: 10px; border-top-left-radius: 0px;" :icon="DataLine" size="large" />
+								<el-button type="primary" style="width:33%; border-bottom-left-radius: 10px; border-top-left-radius: 0px;" :icon="DataLine" size="large" />
 							</el-tooltip>
 							<el-tooltip content="关注该商品" placement="bottom" effect="dark">
 								<el-button style="width:34.8%" @click="Follow(item)" v-show="!item.followed" type="info" :icon="Star" size="large"/>
@@ -53,8 +53,8 @@
 								<el-button style="width:34.8%" @click="Unfollow(item)" v-show="item.followed" type="warning" :icon="Star" size="large"/>
 							</el-tooltip>
 							<el-tooltip content="商品详情页链接" placement="bottom" effect="dark">
-								<el-link :href="item.Link" target="_blank" style="width:33%;">
-									<el-button style="width: 80px; border-bottom-right-radius: 10px; border-top-right-radius: 0px; border-top-left-radius: 0px; border-bottom-left-radius: 0px;" :icon="Link" size="large"/>
+								<el-link :href="item.link" target="_blank" style="width:33%;">
+									<el-button type="danger" style="width: 80px; border-bottom-right-radius: 10px; border-top-right-radius: 0px; border-top-left-radius: 0px; border-bottom-left-radius: 0px;" :icon="Link" size="large"/>
 								</el-link>
 							</el-tooltip>
 						</el-button-group>
@@ -81,7 +81,8 @@ let select_SN = ref(store.state.select_SN);
 
 async function QueryCommodity() {
 	QueryLoading.value = true;
-	const response = await axios.post('/crawler', {
+	const response = await axios.post('/commodity/crawler', {
+		username: store.state.currentUser,
 		keyword: toQuery.value,
 		platforms: {
 			JD: select_JD.value,
@@ -96,14 +97,24 @@ async function QueryCommodity() {
 	store.commit('setSelectSN', select_SN);
 }
 
-const Follow = (item) => {
+async function Follow(item) {
 	ElMessage.success('关注成功');
 	item.followed = true;
+	store.commit('setCommodities', Commodities);
+	await axios.post('/commodity/follow', {
+		username: store.state.currentUser,
+		cid: item.cid
+	});
 }
 
-const Unfollow = (item) => {
+async function Unfollow(item) {
 	ElMessage.success('取消关注成功');
 	item.followed = false;
+	store.commit('setCommodities', Commodities);
+	await axios.post('/commodity/unfollow', {
+		username: store.state.currentUser,
+		cid: item.cid
+	});
 }
 
 </script>

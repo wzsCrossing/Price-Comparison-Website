@@ -75,8 +75,8 @@ async function Register() {
 	validateEmail();
 	if (info.username == '' || info.password == '' || info.password_repeat == '' || info.email == '' || info.code == '') {
 		ElMessage.warning('请填写完整信息！');
-	} else if (info.password.length < 6) {
-		ElMessage.error('密码长度不能小于6位！');
+	} else if (info.username.length < 6 || info.password.length < 6) {
+		ElMessage.error('用户名和密码长度不能小于6位！');
 	} else if (info.password != info.password_repeat) {
 		ElMessage.error('两次密码输入不一致！');
 	} else if (emailError.value) {

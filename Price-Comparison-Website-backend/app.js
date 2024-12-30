@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { loginVerify } = require('./login');
 const { registerConfirm, registerEmail } = require('./register');
-const { commodityCrawl } = require('./commodity');
+const { commodityCrawl, commodityFollow, commodityUnfollow } = require('./commodity');
 const app = express();
 const port = 3000;
 
@@ -45,12 +45,26 @@ app.post('/register/email', async (req, res) => {
   await registerEmail(email);
 });
 
-app.post('/crawler', async (req, res) => {
+app.post('/commodity/crawler', async (req, res) => {
   console.log('Crawler Request: ', req.body);
-  const { keyword, platforms } = req.body;
+  const { username, keyword, platforms } = req.body;
 
-  const products = await commodityCrawl(keyword, platforms);
+  const products = await commodityCrawl(username, keyword, platforms);
   res.json(products);
+});
+
+app.post('/commodity/follow', async (req, res) => {
+  console.log('Follow Request: ', req.body);
+  const { username, cid } = req.body;
+
+  await commodityFollow(username, cid);
+});
+
+app.post('/commodity/unfollow', async (req, res) => {
+  console.log('Unfollow Request: ', req.body);
+  const { username, cid } = req.body;
+
+  await commodityUnfollow(username, cid);
 });
 
 app.listen(port, () => {

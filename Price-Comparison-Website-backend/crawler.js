@@ -30,14 +30,15 @@ async function crawlSuning(keyword) {
     const products = await page.evaluate(() => {
         const productElements = document.querySelectorAll('.product-box');
         const productData = [];
+        const titleSet = new Set();
 
         productElements.forEach((product) => {
             const imgUrl = product.querySelector('.sellPoint img')?.src;
 			const title = product.querySelector('.title-selling-point')?.innerText.trim();
             const priceString = product.querySelector('.price-box')?.innerText.trim();
-            const Link = product.querySelector('.sellPoint')?.href;
+            const link = product.querySelector('.sellPoint')?.href;
 
-            if (priceString != '') {
+            if (priceString != '' && !titleSet.has(title)) {
                 const price = priceString.split('¥')[1];
                 const priceInt = price.split('.')[0];
                 const priceDec = price.split('.')[1];
@@ -48,9 +49,10 @@ async function crawlSuning(keyword) {
                     price: parseFloat(price),
                     priceInt,
                     priceDec: priceDec.substring(0, 2),
-                    platform: '苏宁',
-                    Link,
+                    platform: '苏宁易购',
+                    link,
                 });
+                titleSet.add(title);
             }
         });
 
@@ -94,14 +96,15 @@ async function crawlJingdong(keyword) {
     const products = await page.evaluate(() => {
         const productElements = document.querySelectorAll('.li_cen');
         const productData = [];
+        const titleSet = new Set();
 
         productElements.forEach((product) => {
             const imgUrl = product.querySelector('.img_k')?.src;
 			const title = product.querySelector('.commodity_tit')?.innerText.trim();
             const priceString = product.querySelector('.commodity_info span')?.innerText.trim();
-            const Link = product.querySelector('.li_cen_bot a')?.href;
+            const link = product.querySelector('.li_cen_bot a')?.href;
             
-            if (priceString != '') {
+            if (priceString != '' && !titleSet.has(title)) {
                 const price = priceString.substring(1);
                 const priceInt = price.split('.')[0];
                 const priceDec = price.split('.')[1];
@@ -113,8 +116,9 @@ async function crawlJingdong(keyword) {
                     priceInt,
                     priceDec: priceDec.substring(0, 2),
                     platform: '京东',
-                    Link,
+                    link,
                 });
+                titleSet.add(title);
             }
         });
 
