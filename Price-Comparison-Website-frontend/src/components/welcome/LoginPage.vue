@@ -1,6 +1,6 @@
 <template>
 	<el-scrollbar height="100%" style="width: 100%; opacity: 1;">
-		<el-image style="width: 60%; margin-top: 20%;margin-bottom: 8%; margin-left: 20%; margin-right: 20%;" src="/src/components/icons/logo.png"/>
+		<el-image style="width: 60%; margin-top: 20%;margin-bottom: 8%; margin-left: 20%; margin-right: 20%;" src="https://s21.ax1x.com/2025/01/01/pAzjLmn.png"/>
 		<div style="font-size: 2em; font-family: Microsoft YaHei">登录</div>
 		<el-divider style="width: 60%; margin: 5% 20%;"/>
 		<div>

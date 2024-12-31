@@ -1,7 +1,7 @@
 <template>
   <el-container class="layout-container-demo" style="height: 100vh">
     <el-aside width="18%">
-			<el-image style="width: 80%; margin-top: 20%;margin-bottom: 8%; margin-left: 10%; margin-right: 10%;" src="/src/components/icons/logo.png"/>
+			<el-image style="width: 80%; margin-top: 20%;margin-bottom: 8%; margin-left: 10%; margin-right: 10%;" src="https://s21.ax1x.com/2025/01/01/pAzjLmn.png"/>
       <el-scrollbar>
         <el-menu :default-active="selectIndex">
 					<el-menu-item @click="HomeClick" index="0">

@@ -57,9 +57,8 @@ async function commodityCrawl(username, keyword, platforms) {
             `, [username, cid]);
             product.followed = (result3.length === 0) ? false : true;
 
-            result1[0].price = parseFloat(result1[0].price);
-            if (result1.length > 0 && result1[0].price !== product.price) {
-                await userPriceUpdated(product.cid, product.title, product.platform, result1[0].price, product.price);
+            if (result1.length > 0 && parseFloat(result1[0].price) !== product.price) {
+                await userPriceUpdated(product.cid, product.title, product.platform, parseFloat(result1[0].price), product.price);
             }
         }
     } catch (error) {

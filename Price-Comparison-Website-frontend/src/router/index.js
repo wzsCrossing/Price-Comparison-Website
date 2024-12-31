@@ -73,7 +73,15 @@ router.beforeEach((to, from, next) => {
 
   if (to.name.startsWith('welcome-') && isAuthorized) {
     ElMessage.success('您已成功登录！');
-    next('/home');
+    if (store.state.selectIndex === '0') {
+      next('/home');
+    } else if (store.state.selectIndex === '1-1') {
+      next('/user-info');
+    } else if (store.state.selectIndex === '1-2') {
+      next('/user-follow');
+    } else {
+      next('/commodity');
+    }
   } else if (!to.name.startsWith('welcome-') && !isAuthorized) {
     ElMessage.warning('请先完成登录操作！');
     next('/');
