@@ -29,8 +29,8 @@
     <el-container>
       <el-header>
 				<div>
-					<span class="header_left" style="margin-top: 18px;">
-						<span style="font-size: 24px; color:rgba(0, 0, 0, 0.4)">浙江大学B/S体系软件设计课程项目</span>
+					<span class="header_left" style="margin-top: 3vh;">
+						<span style="font-size: 1em; color:rgba(0, 0, 0, 0.4)">浙江大学B/S体系软件设计课程项目</span>
 					</span>
 					<span class="header_right">
 						<el-tooltip content="通知" placement="bottom" effect="dark">
