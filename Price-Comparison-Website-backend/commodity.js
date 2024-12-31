@@ -1,4 +1,5 @@
 const { crawlSuning, crawlJingdong } = require('./crawler');
+const { userPriceUpdated } = require('./user');
 const db = require('./db');
 const my_database = 'price_comparison_website';
 
@@ -32,6 +33,8 @@ async function commodityCrawl(username, keyword, platforms) {
                 SELECT * FROM commodities WHERE title = ? AND platform = ?
             `, [product.title, product.platform]);
 
+            product.price += 100;
+            product.priceInt = parseInt(product.price).toString();
             const [result2] = await db.query(`
                 INSERT INTO commodities (title, platform, price, imgUrl, link)
                 VALUES (?, ?, ?, ?, ?)
@@ -53,6 +56,11 @@ async function commodityCrawl(username, keyword, platforms) {
                 SELECT * FROM user_follow WHERE username = ? AND cid = ?
             `, [username, cid]);
             product.followed = (result3.length === 0) ? false : true;
+
+            result1[0].price = parseFloat(result1[0].price);
+            if (result1.length > 0 && result1[0].price !== product.price) {
+                await userPriceUpdated(product.cid, product.title, product.platform, result1[0].price, product.price);
+            }
         }
     } catch (error) {
         console.error('commodityCrawl: ', error);

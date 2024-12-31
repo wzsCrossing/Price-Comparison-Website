@@ -1,5 +1,6 @@
 const db = require('./db');
 const my_database = 'price_comparison_website';
+const { sendEmail } = require('./email');
 
 async function userFollowed(username) {
     try {
@@ -89,9 +90,34 @@ async function userUpdatePassword(username, oldPassword, newPassword) {
     }
 }
 
+async function userPriceUpdated(cid, title, platform, oldPrice, newPrice) {
+    try {
+        await db.query('USE ??', [my_database]);
+
+        const [results] = await db.query(`
+            SELECT u.email
+            FROM users u
+            JOIN user_follow uf ON u.username = uf.username
+            WHERE uf.cid = ?
+        `, [cid]);
+
+        for (let user of results) {
+            const subject = '关注商品价格更新';
+            const content = `
+                <p>您在Price Hunter网站上关注的${platform}平台的"${title}"商品价格已从${oldPrice}元更新为${newPrice}元。</p>
+            `;
+            await sendEmail(user.email, subject, content);
+        }
+
+    } catch (error) {
+        console.error('userPriceUpdated: ', error);
+    }
+}
+
 module.exports = {
     userFollowed,
     userQuery,
     userUpdateUsername,
     userUpdatePassword,
+    userPriceUpdated,
 };
