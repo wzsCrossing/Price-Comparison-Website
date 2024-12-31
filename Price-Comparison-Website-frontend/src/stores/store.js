@@ -13,11 +13,6 @@ const store = createStore({
 	mutations: {
 		setUser(state, user) {
 			state.currentUser = user;
-			state.toQuery = '';
-			state.Commodities = [];
-			state.select_JD = true;
-			state.select_SN = true;
-			state.selectIndex = '0';
 		},
 		resetUser(state) {
 			state.currentUser = '';

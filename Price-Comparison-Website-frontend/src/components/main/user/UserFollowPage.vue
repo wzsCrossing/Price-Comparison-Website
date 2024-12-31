@@ -11,7 +11,7 @@
 					
 					<el-image :src="item.imgUrl" style="width: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;"/>
 					
-					<div style="height: 140px; margin-top: -2%; background-color: antiquewhite; padding-top: 1%; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; position: relative;">
+					<div style="height: 180px; margin-top: -2%; background-color: antiquewhite; padding-top: 1%; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; position: relative;">
 						<div style="margin-left: 10px; margin-right: 10px; text-align: start; font-size: 16px;">
 							<div class="boxText"> 
 								<el-tag style="height: 22px; margin-top: -2px; background-color: #FF0036; color: white;"> {{ item.platform }} </el-tag> 
@@ -25,6 +25,11 @@
 								<span style="font-size: 175%;">{{ item.priceInt }}</span>
 								.{{ item.priceDec }}
 							</span>
+						</div>
+
+                        <div style="margin-left: 10px; text-align: start; font-size: 16px; display: flex; align-items: center;">
+							价格更新时间：{{item.updateAt}} <br />
+                            关注时间：{{item.createAt}}
 						</div>
 						
 						<el-button-group style="width: 100%; position: absolute; bottom: 0; left: 0;">
@@ -135,7 +140,7 @@ async function ShowCharts(cid) {
 }
 
 .commodityBox {
-	height: 380px;
+	height: 420px;
 	width: 240px;
 	background-color: white;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

@@ -20,7 +20,7 @@
 		</div>
 
 		<div class="container">
-			<div class="commodityBox" v-for="item in Commodities">
+			<div class="commodityBox" v-for="item in Commodities" v-loading="loading">
 				<div>
 					
 					<el-image :src="item.imgUrl" style="width: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;"/>
@@ -86,9 +86,11 @@ let select_JD = ref(store.state.select_JD);
 let select_SN = ref(store.state.select_SN);
 let dialogVisible = ref(false);
 let chartData = ref([]);
+let loading = ref(false);
 
 async function QueryCommodity() {
 	QueryLoading.value = true;
+	loading.value = true;
 	const response = await axios.post('/commodity/crawler', {
 		username: store.state.currentUser,
 		keyword: toQuery.value,
@@ -99,6 +101,7 @@ async function QueryCommodity() {
 	});
 	Commodities.value = response.data;
 	QueryLoading.value = false;
+	loading.value = false;
 	store.commit('setQuery', toQuery);
 	store.commit('setCommodities', Commodities);
 	store.commit('setSelectJD', select_JD);

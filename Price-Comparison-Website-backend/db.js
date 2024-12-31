@@ -88,7 +88,7 @@ async function createFollowTable() {
         username VARCHAR(255) NOT NULL,
         cid INT NOT NULL,
         createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (username) REFERENCES users(username),
+        FOREIGN KEY (username) REFERENCES users(username) ON UPDATE CASCADE,
         FOREIGN KEY (cid) REFERENCES commodities(cid)
       )
     `);

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { loginVerify } = require('./login');
 const { registerConfirm, registerEmail } = require('./register');
 const { commodityCrawl, commodityFollow, commodityUnfollow, commodityHistory } = require('./commodity');
-const { userFollowed } = require('./user');
+const { userFollowed, userQuery, userUpdateUsername, userUpdatePassword } = require('./user');
 const app = express();
 const port = 3000;
 
@@ -82,6 +82,40 @@ app.post('/user/followed', async (req, res) => {
 
   const result = await userFollowed(username);
   res.json(result);
+});
+
+app.post('/user/query', async (req, res) => {
+  console.log('UserInfo Query Request: ', req.body);
+  const { username } = req.body;
+
+  const result = await userQuery(username);
+  res.json(result);
+});
+
+app.post('/user/updateUsername', async (req, res) => {
+  console.log('Username Update Request: ', req.body);
+  const { username, newUsername } = req.body;
+
+  const result = await userUpdateUsername(username, newUsername);
+  if (result === 1) {
+    res.json('success');
+  } else {
+    res.json('exist');
+  }
+});
+
+app.post('/user/updatePassword', async (req, res) => {
+  console.log('Password Update Request: ', req.body);
+  const { username, oldPassword, newPassword } = req.body;
+
+  const result = await userUpdatePassword(username, oldPassword, newPassword);
+  if (result === 1) {
+    res.json('success');
+  } else if (result === 0) {
+    res.json('wrong');
+  } else {
+    res.json('error');
+  }
 });
 
 app.listen(port, () => {
